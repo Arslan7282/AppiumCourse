@@ -10,6 +10,7 @@ cap: Dict[str, Any] = {
     "deviceName": "JFQO7PFEU44XBIIJ",
     "automationName": "UiAutomator2",
     #if we want to open an specific app then we have no need to add these lines
+#dumpsys window windows | grep -E 'mTopActivityComponent' this command is used to find out the package name
     # "appPackage": "com.qompli.app",
     # "appActivity": "com.qompli.app.MainActivity",
     # "newCommandTimeout": 300,
@@ -23,7 +24,7 @@ driver = webdriver.Remote(url, options=AppiumOptions().load_capabilities(cap))
 el = driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value='Contacts, 0 notifications')
 el.click()
 
-driver.find_element(by=AppiumBy.XPATH, value='//android.widget.EditText[@text="Search among 602 contact(s)"]').send_keys("Mama G")
+driver.find_element(by=AppiumBy.XPATH, value='//android.widget.EditText[@text="Search among 602 contact(s)"]').send_keys("Ahmad")
 
 # driver.quit()
 
