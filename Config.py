@@ -38,7 +38,12 @@ wait1 = WebDriverWait(driver, 10, poll_frequency=1, ignored_exceptions=[NoSuchEl
 el2 = wait1.until(EC.presence_of_element_located(AppiumBy.XPATH, "//android.widget.Button[@content-desc='New Contact']"))
 el2.click()
 
-driver.find_element(by=AppiumBy.XPATH, value='//android.widget.EditText[@text="Name"]').send_keys("test Ali")
+# when we use uiselector then we have not use by= we have just use AppiumBy directly
+driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().test("Name")').send_keys('Arslan')
+
+
+# this is using the XPATH and other IDs to find element
+# driver.find_element(by=AppiumBy.XPATH, value='//android.widget.EditText[@text="Name"]').send_keys("test Ali")
 
 driver.find_element(by=AppiumBy.XPATH, value='//android.widget.EditText[@text="Phone"]').send_keys("123456789")
 
