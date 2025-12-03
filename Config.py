@@ -6,6 +6,7 @@ from appium.webdriver.common.appiumby import AppiumBy
 import time
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import NoSuchElementException, ElementNotVisibleException
 
 cap: Dict[str, Any] = {
     'platformName': 'Android',
@@ -23,16 +24,19 @@ cap: Dict[str, Any] = {
 url = 'http://127.0.0.1:4723'
 
 driver = webdriver.Remote(url, options=AppiumOptions().load_capabilities(cap))
+# implicitly wait until the app is completely load then it perfom other actions we use it because the time.sleep(5) comman some times work as axpected and some times it not work as expected
 driver.implicitly_wait(10)
 
 driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value='Phone, 2 notifications').click()
 
+# and explicitly wait until the element locater is completely loaded
 wait = WebDriverWait(driver, 10)
 el = wait.until(EC.presence_of_element_located(AppiumBy.ACCESSIBILITY_ID, "com.android.dialer:id/contactsButton"))
 el.click()
 
-driver.find_element(by=AppiumBy.XPATH, value='//android.widget.Button[@content-desc="New Contact"]').click()
-time.sleep(5)
+wait1 = WebDriverWait(driver, 10, poll_frequency=1, ignored_exceptions=[NoSuchElementException, ElementNotVisibleException])
+el2 = wait1.until(EC.presence_of_element_located(AppiumBy.XPATH, "//android.widget.Button[@content-desc='New Contact']"))
+el2.click()
 
 driver.find_element(by=AppiumBy.XPATH, value='//android.widget.EditText[@text="Name"]').send_keys("test Ali")
 
